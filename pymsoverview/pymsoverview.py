@@ -34,15 +34,13 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def info_print(header, content):   
-    print(bcolors.HEADER+header+bcolors.ENDC,
-          content,'\t')
+    print(bcolors.HEADER+str(header)+bcolors.ENDC+str(content)+'\t')
 
 def human_format(number):
     units = ['', 'k', 'M', 'G', 'T', 'P']
     k = 1000.0
     magnitude = int(np.floor(np.log(number[0])/np.log(k)))
     return (number / k**magnitude, units[magnitude])
- 
     
 def main():
 
