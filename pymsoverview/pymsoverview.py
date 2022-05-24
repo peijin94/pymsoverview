@@ -64,15 +64,15 @@ def main():
         print(bcolors.FAIL+'Empty input.'+bcolors.ENDC)
     else:
         fname = options.filename
-        ant = pt.taql('select NAME from $fname/ANTENNA').getcol("NAME")
+        ant = pt.taql('select NAME from '+fname+'/ANTENNA').getcol("NAME")
         nbaseline = int((len(ant)+1)*len(ant)/2)
 
-        t_all  = pt.taql('select TIME from $fname LIMIT ::$nbaseline').getcol('TIME')
+        t_all  = pt.taql('select TIME from '+fname+' LIMIT ::$nbaseline').getcol('TIME')
         N_idx_time =  len(t_all)
-        obs_this_tmp = pt.taql('select * from $fname/OBSERVATION')
+        obs_this_tmp = pt.taql('select * from '+fname+'/OBSERVATION')
         time_range = (Time(obs_this_tmp.getcol('TIME_RANGE').ravel()[0:2]/3600/24.,
                            format='mjd').to_datetime())
-        telescope_name = pt.taql('select TELESCOPE_NAME from $fname/OBSERVATION').getcol('TELESCOPE_NAME')[0]
+        telescope_name = pt.taql('select TELESCOPE_NAME from '+fname+'/OBSERVATION').getcol('TELESCOPE_NAME')[0]
 
 
         print(bcolors.OKGREEN+'[INFO]'+bcolors.ENDC+' Input MS : '+fname)
@@ -86,31 +86,31 @@ def main():
         info_print('N time slot : \t',N_idx_time)
         info_print('Obs Start t :\t', str(time_range[0])+' (UTC)')
         info_print('Obs End t :\t', str(time_range[1])+' (UTC)')
-        info_print('Total time :\t',pt.taql('select INTERVAL from $fname/FEED').getcol('INTERVAL')[0])
+        info_print('Total time :\t',pt.taql('select INTERVAL from '+fname+'/FEED').getcol('INTERVAL')[0])
         print(' ')
 
 
         print(bcolors.OKGREEN+'[INFO]'+bcolors.ENDC+' Observation ')
         info_print('Telescope : \t',telescope_name)
-        info_print('Observer : \t',pt.taql('select OBSERVER from $fname/OBSERVATION').getcol('OBSERVER')[0])
-        info_print('Project : \t',pt.taql('select PROJECT from $fname/OBSERVATION').getcol('PROJECT')[0])
+        info_print('Observer : \t',pt.taql('select OBSERVER from '+fname+'/OBSERVATION').getcol('OBSERVER')[0])
+        info_print('Project : \t',pt.taql('select PROJECT from '+fname+'/OBSERVATION').getcol('PROJECT')[0])
         if telescope_name=="LOFAR":
             info_print('Project PI: \t',
-                       pt.taql('select LOFAR_PROJECT_PI from $fname/OBSERVATION').getcol('LOFAR_PROJECT_PI')[0])
+                       pt.taql('select LOFAR_PROJECT_PI from '+fname+'/OBSERVATION').getcol('LOFAR_PROJECT_PI')[0])
             info_print('LOFAR SASID: \t',
-                       pt.taql('select LOFAR_OBSERVATION_ID from $fname/OBSERVATION').getcol('LOFAR_OBSERVATION_ID')[0])
+                       pt.taql('select LOFAR_OBSERVATION_ID from '+fname+'/OBSERVATION').getcol('LOFAR_OBSERVATION_ID')[0])
             info_print('LOFAR Target: \t',
-                       pt.taql('select LOFAR_TARGET from $fname/OBSERVATION').getcol('LOFAR_TARGET')['array'][0])
+                       pt.taql('select LOFAR_TARGET from '+fname+'/OBSERVATION').getcol('LOFAR_TARGET')['array'][0])
         print(' ')
 
 
 
 
-        #info_print('Project PI: \t',pt.taql('select PROJECT from $fname/OBSERVATION').getcol('PROJECT')[0])
+        #info_print('Project PI: \t',pt.taql('select PROJECT from '+fname+'/OBSERVATION').getcol('PROJECT')[0])
         print('==============================================')
 
         print(bcolors.OKGREEN+'[INFO]'+bcolors.ENDC+' Spectral Windows: ')
-        spw = pt.taql('select * from $fname/SPECTRAL_WINDOW')
+        spw = pt.taql('select * from '+fname+'/SPECTRAL_WINDOW')
         show_col = ['NAME','NUM_CHAN', 'REF_FREQUENCY', 'TOTAL_BANDWIDTH', 'CHAN_FREQ', 'CHAN_WIDTH', 'EFFECTIVE_BW']
         print('Name \t#Chan \tCh0(Hz) \tTotBW(Hz) \tChFreq(Hz) \tChW(Hz) \tEffBW(Hz)')
         obs_this_tmp.colnames()
@@ -130,7 +130,7 @@ def main():
 
 
         print(bcolors.OKGREEN+'[INFO]'+bcolors.ENDC+' Fields: ')
-        spw = pt.taql('select * from $fname/FIELD')
+        spw = pt.taql('select * from '+fname+'/FIELD')
         show_col = ['PHASE_DIR','CODE','NAME']
         print('RA(d) \tDEC(d) \tCode \tName')
         obs_this_tmp.colnames()
@@ -147,7 +147,7 @@ def main():
         if options.verbose ==True:
             
             print(bcolors.OKGREEN+'[INFO]'+bcolors.ENDC+' Antenna set: ')
-            ant_all = pt.taql('select * from $fname/ANTENNA')
+            ant_all = pt.taql('select * from '+fname+'/ANTENNA')
             show_col = ['NAME','MOUNT', 'DISH_DIAMETER', 'POSITION']
             print('AntName \t#Mount \tDiameter(m) \tPosXYZ(m)')
             obs_this_tmp.colnames()
