@@ -8,10 +8,7 @@ python -m pymsoverview -f xxxxx.MS [-v]
 
 Written by Peijin Zhang
 version 0.1 2022-5-23 00:24:52: Initial version
-
 """
-
-
 
 import casacore
 import casacore.tables as pt
@@ -25,7 +22,6 @@ import sys
 
 from optparse import OptionParser
 
-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -37,9 +33,8 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
 def info_print(header, content):   
-    print(bcolors.HEADER+bcolors.BOLD+header+bcolors.ENDC,
+    print(bcolors.HEADER+header+bcolors.ENDC,
           content,'\t')
 
 def human_format(number):
