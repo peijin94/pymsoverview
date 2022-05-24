@@ -130,8 +130,8 @@ def main():
 
         for rowid in spw.rownumbers():
             pointing = spw[rowid]['PHASE_DIR'].ravel()
-            print(round(pointing[0]*180/np.pi,3),'\t',round(pointing[1]*180/np.pi,3),'\t',
-                 spw[rowid]['CODE'],'\t',spw[rowid]['NAME'])
+            print(str(round(pointing[0]*180/np.pi,3))+'\t'+str(round(pointing[1]*180/np.pi,3))+'\t'+
+                 +str(spw[rowid]['CODE'])+'\t'+str(spw[rowid]['NAME']))
         print(' ')
 
 
